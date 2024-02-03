@@ -27,24 +27,26 @@ const initialFriends: IFriend[] = [
 ];
 
 function App() {
+  const [friends, setFriends] = useState(initialFriends);
   const [showAddFriend, setShowAddFriend] = useState(false);
   const buttonText = showAddFriend ? "Close" : "Add Friend";
 
-  const handleAddFriend = (friendName:string,imageURL:string) => {
-    const newFriend:IFriend = {
-      id: Math.floor(Math.random() * 1000000),
+  const handleAddFriend = (friendName: string, imageURL: string) => {
+    const id = Math.floor(Math.random() * 1000000);
+    const newFriend: IFriend = {
+      id,
       name: friendName,
-      image: imageURL,
+      image: `${imageURL}?=${id}`,
       balance: 0
     }
-    initialFriends.push(newFriend);
+    setFriends([...friends, newFriend]);
     setShowAddFriend(false);
-   };
+  };
 
   return (
     <div className='app'>
       <div className="sidebar">
-        <FriendList friendList={initialFriends} />
+        <FriendList friendList={friends} />
         {
           showAddFriend && <FormAddFriend onClick={handleAddFriend} />
         }
