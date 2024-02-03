@@ -5,7 +5,7 @@ import { IFormAddFriend } from "./types";
 const FormAddFriend: FC<IFormAddFriend> = ({ onClick }) => {
 
     const [frienName, setFriendName] = useState<string>("");
-    const [imageUrl, setImageUrl] = useState<string>("");
+    const [imageUrl, setImageUrl] = useState<string>("https://i.pravatar.cc/48?u=499476");
     const [error, setError] = useState<string>("");
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
