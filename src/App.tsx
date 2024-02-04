@@ -54,7 +54,10 @@ function App() {
     }
     setSelectedFriend(friend);
     setShowSplitBill(true);
+    setShowAddFriend(false)
   };
+
+
 
   return (
     <div className='app'>
