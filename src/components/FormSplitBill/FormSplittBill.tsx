@@ -20,6 +20,13 @@ const FormSplitBill: FC<IFormSplitBillProps> = ({ friend }) => {
     }
 
     useEffect(() => {
+        setTotalBill(0);
+        setYourExpense(0);
+        setFriendExpense(0);
+        setWhoIsPaying("you");
+    }, [friend?.id]);
+
+    useEffect(() => {
         const friendExpenses = totalBill - yourExpense;
         setFriendExpense(friendExpenses);
     }, [totalBill, yourExpense]);
