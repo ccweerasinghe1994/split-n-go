@@ -57,7 +57,19 @@ function App() {
     setShowAddFriend(false)
   };
 
-
+  const handleBillUpdate = (friendId: number, yourExpense: number) => {
+    const updatedFriends = friends.map((friend) => {
+      if (friend.id === friendId) {
+        return {
+          ...friend,
+          balance: yourExpense
+        }
+      }
+      return friend;
+    });
+    setFriends([...updatedFriends]);
+    setShowSplitBill(false);
+  }
 
   return (
     <div className='app'>
@@ -68,7 +80,7 @@ function App() {
         }
         <Button onClick={() => setShowAddFriend(!showAddFriend)}>{buttonText}</Button>
       </div>
-      {showSplitBill && <FormSplitBill friend={selectedFriend} />}
+      {showSplitBill && <FormSplitBill handleBillUpdate={handleBillUpdate} friend={selectedFriend} />}
     </div>
   )
 }
