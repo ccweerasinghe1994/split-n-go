@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import Button from "../Button/Button";
 import { IFormSplitBillProps } from "./types";
 
-const FormSplitBill: FC<IFormSplitBillProps> = ({ friend }) => {
+const FormSplitBill: FC<IFormSplitBillProps> = ({ friend, handleBillUpdate }) => {
     const [totalBill, setTotalBill] = useState<number>(0);
     const [yourExpense, setYourExpense] = useState<number>(0);
     const [friendExpense, setFriendExpense] = useState<number>(0);
@@ -33,8 +33,13 @@ const FormSplitBill: FC<IFormSplitBillProps> = ({ friend }) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (totalBill === 0 || yourExpense === 0) return;
-        console.log("Form Submitted");
+        if (totalBill === 0 || yourExpense === 0 || friend?.id == undefined) return;
+        if (whoIsPaying === "you") {
+            handleBillUpdate(friend?.id, friendExpense);
+            return;
+        }
+
+        handleBillUpdate(friend?.id, -yourExpense);
     }
 
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
