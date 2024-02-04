@@ -4,12 +4,14 @@ import { IFriend } from "./types";
 
 interface FriendListProps {
     friendList: IFriend[];
+    selectedFriend: IFriend | null;
+    onClick: (friend: IFriend) => void;
 }
 
-const FriendList: FC<FriendListProps> = ({ friendList }) => {
+const FriendList: FC<FriendListProps> = ({ friendList, selectedFriend, onClick }) => {
 
     const content = friendList.map((friend) => (
-        <Friend key={friend.id} {...friend} />
+        <Friend onClick={onClick} selectedFriend={selectedFriend} key={friend.id} {...friend} />
     ));
 
     return (
