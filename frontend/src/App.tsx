@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from './components/Button/Button';
 import FormAddFriend from './components/FormAddFriend/FormAddFriend';
 import FormSplitBill from './components/FormSplitBill/FormSplittBill';
@@ -31,8 +31,23 @@ function App() {
   const [showAddFriend, setShowAddFriend] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState<IFriend | null>(null);
   const [showSplitBill, setShowSplitBill] = useState(false);
-
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
   const buttonText = showAddFriend ? "Close" : "Add Friend";
+
+  useEffect(() => {
+    // default page size
+    fetch(`http://localhost:8080/api/v1/friends?page=${page}&size=${size}`)
+      .then(response => response.json())
+      .then((data) => {
+        console.log(data);
+        setFriends(data);
+      }).catch((error) => {
+        console.log(error);
+      });
+
+  }, [page, size]);
+
 
   const handleAddFriend = (friendName: string, imageURL: string) => {
     const id = Math.floor(Math.random() * 1000000);
@@ -70,11 +85,20 @@ function App() {
     setFriends([...updatedFriends]);
     setShowSplitBill(false);
   }
-
+  const handlePagination = (type: string) => {
+    if (type === "previous") {
+      if (page === 0) {
+        return;
+      }
+      setPage(page - 1);
+    } else {
+      setPage(page + 1);
+    }
+  }
   return (
     <div className='app'>
       <div className="sidebar">
-        <FriendList onClick={handleSelectFriend} selectedFriend={selectedFriend} friendList={friends} />
+        <FriendList onPagination={handlePagination} onClick={handleSelectFriend} selectedFriend={selectedFriend} friendList={friends} />
         {
           showAddFriend && <FormAddFriend onClick={handleAddFriend} />
         }
